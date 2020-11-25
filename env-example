@@ -1,0 +1,33 @@
+############################## Main Config ##############################
+
+COMPOSE_PROJECT_NAME=lab_store
+DATA_PATH_HOST=./.data
+
+WEB_PORT=11000
+WEB_EXTERNAL_URL=http://example:11000
+
+DB_PORT=11001
+DB_HOST=db
+
+
+#########################################################################
+
+###### Database Config 
+
+DB_USER=root
+DB_PASSWORD=rootrootrootroot
+DB_ROOT_PASSWORD=rootrootrootroot
+DB_DATABASE=LabStore
+DB_CONNECTION_OPTION=?relaxAutoCommit=true&useSSL=false&useUnicode=true&characterEncoding=utf-8
+
+###### LOG
+
+LOG_LEVEL=error
+
+
+#########################################################################
+
+
+
+
+
