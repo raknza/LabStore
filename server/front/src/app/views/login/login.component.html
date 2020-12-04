@@ -1,0 +1,82 @@
+<div class="app-body" style="background-color:whitesmoke">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 mx-auto">
+          <h1 style="display:inline;color:rgb(211, 131, 39);text-align: center">LabStore</h1>
+          <h1 style="display:inline;text-align: center;">福利社管理系統</h1>
+          <p></p>
+          <p>LabStore是一個類POS的商品及銷售管理系統，用來幫助福利社老闆管理
+            商品進貨、銷售、營收狀況等管理需求，同時幫助管理者理解客戶消費趨勢以便決定進貨商品的種類。</p>
+          <hr>
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)=" login()">
+                  <p class="text-muted">Sign In</p>
+                  <hr>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Username</span>
+                    </div>
+                    <input id='username' type="text" matInput class="form-control" 
+                      autocomplete="username" formControlName="username">
+                    <span *ngIf="!loginForm.get('username').valid" class="invalid-feedback">Your username must be more
+                      than or equals 4</span>
+                  </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Password</span>
+                    </div>
+                    <input id='password' type="password" matInput class="form-control" 
+                      autocomplete="current-password" formControlName="password">
+                    <span *ngIf="!loginForm.get('password').valid" class="invalid-feedback">Your password must be
+                      more
+                      than
+                      8</span>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="submit" class="btn btn-primary">SIGN IN</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="button" class="btn btn-link px-0">Forgot password?</button>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="submit" class="btn btn-success">SIGN UP</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Error</h4>
+        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>User Name or Password is not Correct&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
