@@ -12,12 +12,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import labstore.utils.ExceptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import labstore.data.User;
-import labstore.service.RoleEnum;
-import labstore.utils.ExceptionUtil;
+import labstore.data.RoleEnum;
 
 public class UserDbManager {
 
@@ -52,7 +52,7 @@ public class UserDbManager {
    * 
    * @param user The user
    */
-  public void addUser(User user) {
+  public void addUser(User user) throws NoSuchAlgorithmException, SQLException {
     String sql = "INSERT INTO " + "User" + "(" + USERNAME + "," + PASSWORD + ","
         + NAME + "," + ROLE + ")" + "VALUES(?, ?, ?, ?)" ;
 
@@ -63,9 +63,6 @@ public class UserDbManager {
       preStmt.setString(3, user.getName());
       preStmt.setString(4, user.getRole().name());
       preStmt.executeUpdate();
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
   }
 
@@ -76,26 +73,20 @@ public class UserDbManager {
    * @return MD5 string
    * @throws NoSuchAlgorithmException on security api call error
    */
-  public String passwordMD5(String password) {
-    String hashtext = "";
-    try {
-      String msg = password;
-      MessageDigest md = MessageDigest.getInstance("MD5");
-      byte[] messageDigest = md.digest(msg.getBytes());
-      BigInteger number = new BigInteger(1, messageDigest);
-      hashtext = number.toString(16);
-
-      StringBuilder bld = new StringBuilder();
-      for (int count = hashtext.length(); count < 32; count++) {
-        bld.append("0");
-      }
-      hashtext = bld.toString() + hashtext;
-    } catch (NoSuchAlgorithmException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
+  public String passwordMD5(String password) throws NoSuchAlgorithmException {
+    String hashText = "";
+    String msg = password;
+    MessageDigest md = MessageDigest.getInstance("MD5");
+    byte[] messageDigest = md.digest(msg.getBytes());
+    BigInteger number = new BigInteger(1, messageDigest);
+    hashText = number.toString(16);
+    StringBuilder bld = new StringBuilder();
+    for (int count = hashText.length(); count < 32; count++) {
+      bld.append("0");
     }
+    hashText = bld.toString() + hashText;
 
-    return hashtext;
+    return hashText;
   }
 
   /**
@@ -104,7 +95,7 @@ public class UserDbManager {
    * @param username user stu id
    * @return password
    */
-  public String getPassword(String username) {
+  public String getPassword(String username) throws SQLException {
     String token = "";
     String query = "SELECT password FROM User WHERE username = ?";
 
@@ -116,9 +107,6 @@ public class UserDbManager {
           token = rs.getString(PASSWORD);
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return token;
   }
@@ -129,7 +117,8 @@ public class UserDbManager {
    * @param username user stu id
    * @param password user new password
    */
-  public void modifiedUserPassword(String username, String password) {
+  public void modifiedUserPassword(String username, String password)
+      throws NoSuchAlgorithmException, SQLException {
     String query = "UPDATE User SET password=? WHERE username = ?";
 
     try (Connection conn = database.getConnection();
@@ -138,9 +127,6 @@ public class UserDbManager {
       preStmt.setString(1, newPass);
       preStmt.setString(2, username);
       preStmt.executeUpdate();
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
   }
 
@@ -151,12 +137,15 @@ public class UserDbManager {
    * @param password user old password
    * @return T or F
    */
-  public boolean checkPassword(String username, String password) {
+  public boolean checkPassword(String username, String password)
+      throws NoSuchAlgorithmException, SQLException {
     boolean check = false;
+
     String currPassword = getPassword(username);
     if (currPassword.equals(passwordMD5(password))) {
       check = true;
     }
+
     return check;
   }
 
@@ -165,7 +154,7 @@ public class UserDbManager {
    * 
    * @return id
    */
-  public int getUserIdByUsername(String username) {
+  public int getUserIdByUsername(String username) throws SQLException {
     String query = "SELECT id FROM User WHERE username = ?";
     int id = -1;
     try (Connection conn = database.getConnection();
@@ -176,9 +165,6 @@ public class UserDbManager {
           id = rs.getInt("id");
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return id;
   }
@@ -189,7 +175,7 @@ public class UserDbManager {
    * @param username The gitlab user name
    * @return user
    */
-  public User getUser(String username) {
+  public User getUser(String username) throws SQLException {
     return getUser( getUserIdByUsername(username) );
   }
 
@@ -199,7 +185,7 @@ public class UserDbManager {
    * @param id user id
    * @return user
    */
-  public User getUser(int id) {
+  public User getUser(int id) throws SQLException {
     User user = new User();
     String query = "SELECT * FROM User WHERE id = ?";
 
@@ -217,9 +203,6 @@ public class UserDbManager {
           user.setPassword(password);
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return user;
   }
@@ -230,7 +213,7 @@ public class UserDbManager {
    * 
    * @return list of user
    */
-  public List<User> getAllUsers() {
+  public List<User> getAllUsers() throws SQLException {
     List<User> users = new ArrayList<>();
     String sql = "SELECT * FROM User";
 
@@ -253,9 +236,6 @@ public class UserDbManager {
         }
       }
 
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return users;
   }
@@ -266,7 +246,7 @@ public class UserDbManager {
    * @param username studentId
    * @return isExist
    */
-  public boolean checkUsername(String username) {
+  public boolean checkUsername(String username) throws SQLException {
     boolean isExist = false;
     String query = "SELECT count(*) FROM User WHERE username = ?";
 
@@ -279,9 +259,6 @@ public class UserDbManager {
           isExist = true;
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return isExist;
   }
@@ -292,7 +269,7 @@ public class UserDbManager {
    * @param id The db user id
    * @return user
    */
-  public String getUsername(int id) {
+  public String getUsername(int id) throws SQLException {
     String name = "";
     String query = "SELECT username FROM User WHERE id = ?";
     try (Connection conn = database.getConnection();
@@ -303,9 +280,6 @@ public class UserDbManager {
           name = rs.getString(USERNAME);
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return name;
   }
@@ -316,16 +290,12 @@ public class UserDbManager {
    * @param id The user id
    *
    */
-  public void deleteUser(int id) {
+  public void deleteUser(int id) throws SQLException{
     String query = "DELETE FROM LabStore.User WHERE id = ?";
     try (Connection conn = database.getConnection();
          PreparedStatement preStmt = conn.prepareStatement(query)) {
-
       preStmt.setInt(1, id);
       preStmt.executeUpdate();
-
-    } catch (SQLException e) {
-      e.printStackTrace();
     }
   }
 

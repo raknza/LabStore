@@ -1,7 +1,6 @@
 package labstore.database;
 
-import labstore.service.RoleEnum;
-import labstore.utils.ExceptionUtil;
+import labstore.data.RoleEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +27,7 @@ public class RoleDbManager {
    * @param roleName role name
    * @return roleId role Id
    */
-  public int getRoleIdByName(String roleName) {
+  public int getRoleIdByName(String roleName) throws SQLException {
     String query = "SELECT id FROM Role WHERE role = ?";
     int roleId = 0;
 
@@ -40,9 +39,6 @@ public class RoleDbManager {
           roleId = rs.getInt("id");
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return roleId;
   }
@@ -53,8 +49,9 @@ public class RoleDbManager {
    * @param roleId Id
    * @return statusEnum statusEnum
    */
-  public RoleEnum getRoleNameById(int roleId) {
+  public RoleEnum getRoleNameById(int roleId) throws SQLException {
     String query = "SELECT role FROM Role WHERE id = ?";
+    RoleEnum roleEnum;
     String roleName = null;
 
     try (Connection conn = database.getConnection();
@@ -65,11 +62,8 @@ public class RoleDbManager {
           roleName = rs.getString("role");
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
+      roleEnum = RoleEnum.getRoleEnum(roleName);
     }
-    RoleEnum roleEnum = RoleEnum.getRoleEnum(roleName);
     return roleEnum;
   }
 
