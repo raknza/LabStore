@@ -1,33 +1,31 @@
 package labstore.service;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import labstore.data.RoleEnum;
+import labstore.config.JwtConfig;
 
 import org.json.JSONObject;
 
-import labstore.config.JwtConfig;
 import io.jsonwebtoken.Claims;
 
-@Path("auth/")
 public class AuthService {
-  JwtConfig jwt = JwtConfig.getInstance();
+  private static AuthService instance = new AuthService();
+
+  public static AuthService getInstance() {
+    return instance;
+  }
+
+  private JwtConfig jwt = JwtConfig.getInstance();
 
   /**
    * @param token test
    * @return Response
    */
-  @POST
-  @Path("login")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public Response checkAuth(@FormParam("token") String token) {
+  public Response checkAuth(String token) {
     JSONObject ob = new JSONObject();
     if (!token.equals("null") && jwt.validateToken(token)) {
       Claims body = jwt.decodeToken(token);
-      System.out.print("body" + body);
       RoleEnum roleEnum = RoleEnum.getRoleEnum((String) body.get("sub"));
       
       switch (roleEnum) {
