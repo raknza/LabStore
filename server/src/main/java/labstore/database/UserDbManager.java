@@ -26,6 +26,8 @@ public class UserDbManager {
   private static final String PASSWORD = "password";
   private static final String ROLE = "role";
   private static UserDbManager dbManager = null;
+  private static RoleDbManager rDbManager = RoleDbManager.getInstance();
+  private static UserRoleDbManager urDbManager = UserRoleDbManager.getInstance();
   private static final Logger LOGGER = LoggerFactory.getLogger(UserDbManager.class);
 
   /**
@@ -209,12 +211,10 @@ public class UserDbManager {
           String username = rs.getString("username");
           String name = rs.getString(NAME);
           String password = rs.getString(PASSWORD);
-          String role = rs.getString(ROLE);
           user.setId(id);
           user.setUsername(username);
           user.setName(name);
           user.setPassword(password);
-          user.setRole(RoleEnum.getRoleEnum(role));
         }
       }
     } catch (SQLException e) {

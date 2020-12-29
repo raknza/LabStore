@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import labstore.database.UserRoleDbManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -19,6 +20,8 @@ import labstore.database.UserDbManager;
 import labstore.exception.LoadConfigFailureException;
 import labstore.utils.ExceptionUtil;
 import labstore.database.UserDbManager;
+import labstore.service.RoleEnum;
+import labstore.database.RoleDbManager;
 
 /**
  * Servlet implementation class AfterEnter
@@ -60,7 +63,7 @@ public class LoginAuth extends HttpServlet {
     String password = request.getParameter(PASSWORD);
     String role = "";
     if (checkPassword(username, password)) {
-      role = userDbManager.getUser(username).getRole().name();
+      role = getRole(username).toString();
     }
     String token;
     JSONObject ob = new JSONObject();
@@ -104,6 +107,14 @@ public class LoginAuth extends HttpServlet {
     return UserDbManager.getInstance().checkPassword(username, password);
   }
 
+  private RoleEnum getRole(String username) {
+    UserDbManager userDb = UserDbManager.getInstance();
+    UserRoleDbManager roleUserDb = UserRoleDbManager.getInstance();
+    int uid = userDb.getUserIdByUsername(username);
+    int rid = roleUserDb.getTopRid(uid);
+    RoleDbManager roleDb = RoleDbManager.getInstance();
+    return roleDb.getRoleNameById(rid);
+  }
 
   private String getNameByUsername(String username) {
     return UserDbManager.getInstance().getUser(username).getName();
