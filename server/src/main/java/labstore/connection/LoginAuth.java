@@ -2,14 +2,13 @@ package labstore.connection;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import labstore.database.UserRoleDbManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -18,9 +17,9 @@ import org.slf4j.LoggerFactory;
 import labstore.config.JwtConfig;
 import labstore.database.UserDbManager;
 import labstore.exception.LoadConfigFailureException;
+import labstore.database.UserRoleDbManager;
 import labstore.utils.ExceptionUtil;
-import labstore.database.UserDbManager;
-import labstore.service.RoleEnum;
+import labstore.data.RoleEnum;
 import labstore.database.RoleDbManager;
 
 /**
@@ -30,11 +29,8 @@ public class LoginAuth extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final String USERNAME = "username";
   private static final String PASSWORD = "password";
-  private static final String ROLE = "role";
   JwtConfig jwt = JwtConfig.getInstance();
   private static final Logger LOGGER = LoggerFactory.getLogger(LoginAuth.class);
-
-  UserDbManager userDbManager = UserDbManager.getInstance();
 
   /**
    * @throws LoadConfigFailureException .
@@ -48,8 +44,7 @@ public class LoginAuth extends HttpServlet {
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) {
     doPost(request, response);
   }
 
@@ -58,27 +53,38 @@ public class LoginAuth extends HttpServlet {
    *      response)
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-    final HttpSession session = request.getSession();
     String username = request.getParameter(USERNAME);
     String password = request.getParameter(PASSWORD);
     String role = "";
-    if (checkPassword(username, password)) {
-      role = getRole(username).toString();
+    boolean checkPass;
+    try {
+      if (checkPassword(username, password)) {
+        role = getRole(username).toString();
+      }
+      checkPass = true;
+    } catch (SQLException | NoSuchAlgorithmException e) {
+      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
+      LOGGER.error(e.getMessage());
+      checkPass = false;
     }
     String token;
     JSONObject ob = new JSONObject();
 
     try {
-      if (!role.equals("")) {
-        ob.put("isLogin", true);
-        ob.put("role", role);
-        String name = getNameByUsername(username);
-        token = jwt.generateToken(role, username, name);
-        ob.put("token", token);
+      if (checkPass) {
+        if (!role.equals("")) {
+          ob.put("isLogin", true);
+          ob.put("role", role);
+          String name = getNameByUsername(username);
+          token = jwt.generateToken(role, username, name);
+          ob.put("token", token);
+        } else {
+          ob.put("isLogin", false);
+        }
       } else {
-        ob.put("isLogin", false);
+        throw new SQLException("Check Password Failed");
       }
-    } catch (JSONException e) {
+    } catch (JSONException | SQLException e) {
       try {
         ob.put("isLogin", false);
         ob.put("password", password);
@@ -103,11 +109,12 @@ public class LoginAuth extends HttpServlet {
     }
   }
 
-  private boolean checkPassword(String username, String password) {
+  private boolean checkPassword(String username, String password)
+      throws SQLException, NoSuchAlgorithmException {
     return UserDbManager.getInstance().checkPassword(username, password);
   }
 
-  private RoleEnum getRole(String username) {
+  private RoleEnum getRole(String username) throws SQLException {
     UserDbManager userDb = UserDbManager.getInstance();
     UserRoleDbManager roleUserDb = UserRoleDbManager.getInstance();
     int uid = userDb.getUserIdByUsername(username);
@@ -116,7 +123,7 @@ public class LoginAuth extends HttpServlet {
     return roleDb.getRoleNameById(rid);
   }
 
-  private String getNameByUsername(String username) {
+  private String getNameByUsername(String username) throws SQLException {
     return UserDbManager.getInstance().getUser(username).getName();
   }
 
