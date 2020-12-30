@@ -2,19 +2,16 @@ package labstore.data;
 
 import java.io.Serializable;
 
-import labstore.service.RoleEnum;
-
 @SuppressWarnings("serial")
 public class User implements Serializable {
 
-    private int id; // ??��?��?�蕭
+    private int id;
 
-    private String username; // ??�緯??��?��?��?�蕭(??�稷??��?�蕭)
-    // ??��?��?�蕭
+    private String username;
 
-    private String name; // ??��?�蕭??��?�蕭??��?�蕭??��(??��?�蕭??��?�蕭)
+    private String name;
 
-    private String password; // ??��?��?�蕭
+    private String password;
 
     private RoleEnum role;
 
