@@ -9,26 +9,51 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class UserService {
 
   private UserDbManager userDbManager = UserDbManager.getInstance();
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
+  /**
+   * Get user id by username.
+   *
+   * @param username username
+   * @return id
+   * @throws SQLException Exception
+   */
   public int getId(String username) throws SQLException {
     return userDbManager.getUserIdByUsername(username);
   }
 
+  /**
+   * Get user username by id.
+   *
+   * @param userId id
+   * @return username
+   * @throws SQLException Exception
+   */
   public String getName(int userId) throws SQLException {
     return userDbManager.getUsername(userId);
   }
 
+  /**
+   * Delete user by id.
+   *
+   * @param userId id
+   * @throws SQLException Exception
+   */
   public void deleteUser(int userId) throws SQLException {
     userDbManager.deleteUser(userId);
   }
 
+  /**
+   * Create new user.
+   *
+   * @param name name
+   * @param username username
+   * @param password password
+   * @param role role enum
+   * @throws Exception Exception
+   */
   public void createAccount(String name, String username, String password, String role)
       throws Exception {
 
@@ -41,6 +66,14 @@ public class UserService {
     }
   }
 
+  /**
+   * Update info for user.
+   *
+   * @param username username
+   * @param currentPassword old password
+   * @param newPassword new password
+   * @throws Exception Exception
+   */
   public void updatePassword(String username, String currentPassword, String newPassword)
       throws Exception {
     boolean isSame = userDbManager.checkPassword(username, currentPassword);
@@ -51,6 +84,12 @@ public class UserService {
     }
   }
 
+  /**
+   * Get all users.
+   *
+   * @return JSONObject
+   * @throws SQLException Exception
+   */
   public JSONObject getUsers() throws SQLException {
     List<User> users = userDbManager.getAllUsers();
     JSONObject jsonObject = new JSONObject();
@@ -58,6 +97,12 @@ public class UserService {
     return jsonObject;
   }
 
+  /**
+   * Get the users who is customer.
+   *
+   * @return JSONObject
+   * @throws SQLException Exception
+   */
   public JSONObject getCustomers() throws SQLException {
     List<User> customerUsers = new ArrayList<>();
     List<User> users = userDbManager.getAllUsers();
@@ -73,6 +118,12 @@ public class UserService {
     return jsonObject;
   }
 
+  /**
+   * Check the password is it too short or not.
+   *
+   * @param password password
+   * @return boolean
+   */
   private boolean isPasswordTooShort(String password) {
     boolean isPasswordTooShort = false;
     if (password.length() < 8) {
@@ -81,6 +132,13 @@ public class UserService {
     return isPasswordTooShort;
   }
 
+  /**
+   * Check if the username has been repeated.
+   *
+   * @param username username
+   * @return boolean
+   * @throws SQLException Exception
+   */
   private boolean isDuplicateUsername(String username) throws SQLException {
     boolean isDuplicateUsername = false;
     if (userDbManager.checkUsername(username)) {
@@ -89,7 +147,14 @@ public class UserService {
     return isDuplicateUsername;
   }
 
-  private String getErrorMessage(User user) throws SQLException{
+  /**
+   * Check all the rules and return the error message.
+   *
+   * @param user User
+   * @return String
+   * @throws SQLException Exception
+   */
+  private String getErrorMessage(User user) throws SQLException {
     String errorMessage = "";
     if (isPasswordTooShort(user.getPassword())) {
       errorMessage = user.getName() + " : Password must be at least 8 characters.";
