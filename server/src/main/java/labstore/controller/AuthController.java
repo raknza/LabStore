@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 public class AuthController {
   private AuthService authService = AuthService.getInstance();
   private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+
   /**
    * @param token test
    * @return Response

@@ -290,7 +290,7 @@ public class UserDbManager {
    * @param id The user id
    *
    */
-  public void deleteUser(int id) throws SQLException{
+  public void deleteUser(int id) throws SQLException {
     String query = "DELETE FROM LabStore.User WHERE id = ?";
     try (Connection conn = database.getConnection();
          PreparedStatement preStmt = conn.prepareStatement(query)) {
