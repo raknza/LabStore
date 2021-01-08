@@ -14,7 +14,7 @@ public class ProductDbManager {
 
   private static ProductDbManager dbManager = new ProductDbManager();
 
-  private static ProductDbManager getInstance() {
+  public static ProductDbManager getInstance() {
     return dbManager;
   }
 

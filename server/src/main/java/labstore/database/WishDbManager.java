@@ -17,7 +17,7 @@ public class WishDbManager {
 
   private static WishDbManager dbManager = new WishDbManager();
 
-  private static WishDbManager getInstance() {
+  public static WishDbManager getInstance() {
     return dbManager;
   }
 
