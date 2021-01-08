@@ -1,4 +1,4 @@
-package labstore.service;
+package labstore.data;
 
 public enum RoleEnum {
   BOSS("BOSS"), CUSTOMER("CUSTOMER");

@@ -1,7 +1,7 @@
 package labstore.database;
 
 import labstore.data.User;
-import labstore.service.RoleEnum;
+import labstore.data.RoleEnum;
 import labstore.utils.ExceptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,17 +31,11 @@ public class UserRoleDbManager {
    * 
    * @param user User
    */
-  public void addRoleUser(User user) {
-    try {
-      String username = user.getUsername();
-      int uid = udb.getUserIdByUsername(username);
-      int rid = rdb.getRoleIdByName(user.getRole().getTypeName());
-      addRoleUser(rid, uid);
-    } catch (Exception e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
-    }
-
+  public void addRoleUser(User user) throws SQLException {
+    String username = user.getUsername();
+    int uid = udb.getUserIdByUsername(username);
+    int rid = rdb.getRoleIdByName(user.getRole().getTypeName());
+    addRoleUser(rid, uid);
   }
 
   /**
@@ -50,7 +44,7 @@ public class UserRoleDbManager {
    * @param rid Role Id
    * @param uid User Id
    */
-  public void addRoleUser(int rid, int uid) {
+  public void addRoleUser(int rid, int uid) throws SQLException {
     String sql = "INSERT INTO User_Role(rId, uId)  VALUES(?, ?)";
 
     try (Connection conn = database.getConnection();
@@ -58,9 +52,6 @@ public class UserRoleDbManager {
       preStmt.setInt(1, rid);
       preStmt.setInt(2, uid);
       preStmt.executeUpdate();
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
   }
 
@@ -70,7 +61,7 @@ public class UserRoleDbManager {
    * @param uid User Id
    * @return topRid Top Role Id
    */
-  public int getTopRid(int uid) {
+  public int getTopRid(int uid) throws SQLException {
     int topRid = 0;
     String sql = "SELECT rid from User_Role a where uId = ? "
         + "AND (a.rId =(SELECT min(rId) FROM User_Role WHERE uId = ?));";
@@ -83,9 +74,6 @@ public class UserRoleDbManager {
           topRid = rs.getInt("rid");
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return topRid;
   }
@@ -97,7 +85,7 @@ public class UserRoleDbManager {
    * @param uid User Id
    * @return ruId RoleUser Id
    */
-  public int getRuid(int rid, int uid) {
+  public int getRuid(int rid, int uid) throws SQLException {
     int ruid = 0;
     String sql = "SELECT id FROM User_Role WHERE rId=? AND uId=?";
     try (Connection conn = database.getConnection();
@@ -109,9 +97,6 @@ public class UserRoleDbManager {
           ruid = rs.getInt("id");
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return ruid;
   }
@@ -121,7 +106,7 @@ public class UserRoleDbManager {
    * 
    * @return lsRids List RoleEnum
    */
-  public List<RoleEnum> getRoleList(int uid) {
+  public List<RoleEnum> getRoleList(int uid) throws SQLException {
     List<RoleEnum> lsRole = new ArrayList<>();
     String sql = "SELECT rId FROM User_Role WHERE uId = ?";
     try (Connection conn = database.getConnection();
@@ -134,9 +119,6 @@ public class UserRoleDbManager {
           lsRole.add(role);
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return lsRole;
   }
@@ -146,7 +128,7 @@ public class UserRoleDbManager {
    * 
    * @return lsUids role id
    */
-  public List<Integer> getUids(int rid) {
+  public List<Integer> getUids(int rid) throws SQLException {
     List<Integer> lsUids = new ArrayList<>();
     String sql = "SELECT uId FROM User_Role WHERE rId = ?";
     try (Connection conn = database.getConnection();
@@ -158,9 +140,6 @@ public class UserRoleDbManager {
           lsUids.add(uid);
         }
       }
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
     return lsUids;
   }
@@ -171,7 +150,7 @@ public class UserRoleDbManager {
    * @param userId The user id
    *
    */
-  public void deleteRoleUserByUserId(int userId) {
+  public void deleteRoleUserByUserId(int userId) throws SQLException {
     String query = "DELETE FROM User_Role WHERE uid = ?";
     try (Connection conn = database.getConnection();
          PreparedStatement preStmt = conn.prepareStatement(query)) {
@@ -179,9 +158,6 @@ public class UserRoleDbManager {
       preStmt.setInt(1, userId);
       preStmt.executeUpdate();
 
-    } catch (SQLException e) {
-      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
-      LOGGER.error(e.getMessage());
     }
   }
 
