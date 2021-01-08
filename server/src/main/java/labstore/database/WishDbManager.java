@@ -112,7 +112,7 @@ public class WishDbManager {
   }
 
   /**
-   * Get all wishs.
+   * Get all wish.
    *
    * @return List of Wish
    * @throws SQLException Exception

@@ -16,7 +16,7 @@ public class PurchaseDetailDbManager {
 
   private static PurchaseDetailDbManager dbManager = new PurchaseDetailDbManager();
 
-  private static PurchaseDetailDbManager getInstance() {
+  public static PurchaseDetailDbManager getInstance() {
     return dbManager;
   }
 
