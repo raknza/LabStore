@@ -1,8 +1,6 @@
 package labstore.database;
 
 import labstore.data.RoleEnum;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,8 +16,6 @@ public class RoleDbManager {
   }
 
   private IDatabase database = new MySqlDatabase();
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(RoleDbManager.class);
 
   /**
    * Get Role Id by role name

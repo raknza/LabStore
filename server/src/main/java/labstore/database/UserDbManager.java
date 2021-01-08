@@ -12,36 +12,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import labstore.utils.ExceptionUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import labstore.data.User;
 import labstore.data.RoleEnum;
 
 public class UserDbManager {
 
-  private static final String USERNAME = "username";
-  private static final String NAME = "name";
-  private static final String PASSWORD = "password";
-  private static final String ROLE = "role";
-  private static UserDbManager dbManager = null;
-  private static RoleDbManager rDbManager = RoleDbManager.getInstance();
-  private static UserRoleDbManager urDbManager = UserRoleDbManager.getInstance();
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserDbManager.class);
+  private static UserDbManager dbManager = new UserDbManager();
 
-  /**
-   * 
-   * @return dbManager
-   */
   public static UserDbManager getInstance() {
-    if (dbManager == null) {
-      dbManager = new UserDbManager();
-    }
     return dbManager;
   }
 
   private IDatabase database = new MySqlDatabase();
+
+  private static final String USERNAME = "username";
+  private static final String NAME = "name";
+  private static final String PASSWORD = "password";
+  private static final String ROLE = "role";
 
   private UserDbManager() {
 

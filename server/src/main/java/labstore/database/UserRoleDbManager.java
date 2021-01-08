@@ -2,9 +2,6 @@ package labstore.database;
 
 import labstore.data.User;
 import labstore.data.RoleEnum;
-import labstore.utils.ExceptionUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRoleDbManager {
+
   private static UserRoleDbManager dbManager = new UserRoleDbManager();
 
   public static UserRoleDbManager getInstance() {
@@ -21,10 +19,9 @@ public class UserRoleDbManager {
   }
 
   private IDatabase database = new MySqlDatabase();
-  RoleDbManager rdb = RoleDbManager.getInstance();
-  UserDbManager udb = UserDbManager.getInstance();
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserRoleDbManager.class);
+  public static RoleDbManager rdb = RoleDbManager.getInstance();
+  public static UserDbManager udb = UserDbManager.getInstance();
 
   /**
    * Add RoleUser to database by User
