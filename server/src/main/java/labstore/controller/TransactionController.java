@@ -41,7 +41,7 @@ public class TransactionController {
    * @return Response
    */
   @POST
-  @Path("update")
+  @Path("new")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response addTransaction(
