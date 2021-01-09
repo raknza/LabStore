@@ -26,6 +26,12 @@ public class CategoryController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);
 
+  /**
+   * Add new category.
+   *
+   * @param name name
+   * @return Response
+   */
   @POST
   @Path("new")
   @Produces(MediaType.APPLICATION_JSON)
@@ -42,6 +48,11 @@ public class CategoryController {
     return response;
   }
 
+  /**
+   * Get all Category.
+   *
+   * @return Response
+   */
   @GET
   @Path("all")
   @Produces(MediaType.APPLICATION_JSON)

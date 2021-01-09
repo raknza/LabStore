@@ -14,6 +14,10 @@ public class PurchaseService {
 
   private PurchaseDetailDbManager purchaseDetailDbManager = PurchaseDetailDbManager.getInstance();
 
+  public PurchaseDetail getPurchase(int id) throws SQLException {
+    return purchaseDetailDbManager.getPurchaseDetailById(id);
+  }
+
   /**
    * Get all purchases.
    *
@@ -55,6 +59,13 @@ public class PurchaseService {
     return stock;
   }
 
+  /**
+   * Translate List to JSONObject.
+   *
+   * @param user User
+   * @return JSONObject
+   * @throws SQLException Exception
+   */
   public JSONObject getPurchases(User user) throws SQLException {
     List<PurchaseDetail> purchaseDetails = getPurchasesList(user);
     JSONObject jsonObject = new JSONObject();

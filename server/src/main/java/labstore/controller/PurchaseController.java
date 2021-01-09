@@ -29,6 +29,11 @@ public class PurchaseController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PurchaseController.class);
 
+  /**
+   * Get all purchase detail.
+   *
+   * @return Response
+   */
   @GET
   @Path("all")
   @Produces(MediaType.APPLICATION_JSON)
@@ -45,6 +50,12 @@ public class PurchaseController {
     return response;
   }
 
+  /**
+   * Get all purchase by specific boss.
+   *
+   * @param username user name
+   * @return Response
+   */
   @GET
   @Path("all/boss")
   @Consumes(MediaType.APPLICATION_JSON)
