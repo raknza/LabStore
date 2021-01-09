@@ -36,6 +36,28 @@ public class UserService {
   }
 
   /**
+   * Get user by username.
+   *
+   * @param username username
+   * @return User
+   * @throws SQLException Exception
+   */
+  public User getUser(String username) throws SQLException {
+    return userDbManager.getUser(username);
+  }
+
+  /**
+   * Get user by id.
+   *
+   * @param id id
+   * @return User
+   * @throws SQLException Exception
+   */
+  public User getUser(int id) throws  SQLException {
+    return userDbManager.getUser(id);
+  }
+
+  /**
    * Delete user by id.
    *
    * @param userId id
