@@ -14,6 +14,10 @@ public class PurchaseService {
 
   private PurchaseDetailDbManager purchaseDetailDbManager = PurchaseDetailDbManager.getInstance();
 
+  public PurchaseDetail getPurchase(int id) throws SQLException {
+    return purchaseDetailDbManager.getPurchaseDetailById(id);
+  }
+
   /**
    * Get all purchases.
    *

@@ -2,7 +2,9 @@ package labstore.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import labstore.data.PurchaseDetail;
 import labstore.data.Transaction;
@@ -16,11 +18,18 @@ public class TransactionService {
       TransactionDetailDbManager.getInstance();
   private PurchaseService purchaseService = new PurchaseService();
 
+  public void updateTransaction(
+      User user, PurchaseDetail purchaseDetail, int count) throws SQLException {
+    TimeZone.setDefault(TimeZone.getTimeZone("Asia/Taipei"));
+    Date time = new Date();
+    transactionDetailDbManager.addTransactionDetail(user, purchaseDetail, count, time);
+  }
+
   /**
    * Get all transactions.
    *
    * @return List of Transaction
-   * @throws SQLException
+   * @throws SQLException Exception
    */
   public List<Transaction> getAllTransaction() throws SQLException {
     return transactionDetailDbManager.getAllTransaction();
