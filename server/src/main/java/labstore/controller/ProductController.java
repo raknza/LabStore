@@ -32,6 +32,11 @@ public class ProductController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
+  /**
+   * Get all Product.
+   *
+   * @return Response
+   */
   @GET
   @Path("all")
   @Produces(MediaType.APPLICATION_JSON)
@@ -48,6 +53,12 @@ public class ProductController {
     return response;
   }
 
+  /**
+   * Get all product by specific category.
+   *
+   * @param categoryId category id
+   * @return Response
+   */
   @GET
   @Path("all/category")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -66,6 +77,14 @@ public class ProductController {
     return response;
   }
 
+  /**
+   * Add new product.
+   *
+   * @param categoryId category
+   * @param name name
+   * @param description description
+   * @return Response
+   */
   @POST
   @Path("new")
   @Produces(MediaType.APPLICATION_JSON)

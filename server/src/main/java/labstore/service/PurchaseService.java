@@ -59,6 +59,13 @@ public class PurchaseService {
     return stock;
   }
 
+  /**
+   * Translate List to JSONObject.
+   *
+   * @param user User
+   * @return JSONObject
+   * @throws SQLException Exception
+   */
   public JSONObject getPurchases(User user) throws SQLException {
     List<PurchaseDetail> purchaseDetails = getPurchasesList(user);
     JSONObject jsonObject = new JSONObject();

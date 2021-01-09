@@ -32,11 +32,19 @@ public class TransactionController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TransactionController.class);
 
+  /**
+   * Add new transaction.
+   *
+   * @param username user name
+   * @param purchaseId purchase
+   * @param count count
+   * @return Response
+   */
   @POST
   @Path("update")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response updateTransaction(
+  public Response addTransaction(
       @QueryParam("username") String username,
       @QueryParam("purchase") int purchaseId,
       @QueryParam("count") int count) {
@@ -54,6 +62,12 @@ public class TransactionController {
     return response;
   }
 
+  /**
+   * Get all transaction by specific customer.
+   *
+   * @param username user name
+   * @return Response
+   */
   @GET
   @Path("get/all/cus")
   @Produces(MediaType.APPLICATION_JSON)
@@ -71,6 +85,12 @@ public class TransactionController {
     return response;
   }
 
+  /**
+   * Get all transaction by specific boss.
+   *
+   * @param username user name
+   * @return Response
+   */
   @GET
   @Path("get/all/boss")
   @Produces(MediaType.APPLICATION_JSON)

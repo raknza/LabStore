@@ -18,6 +18,14 @@ public class TransactionService {
       TransactionDetailDbManager.getInstance();
   private PurchaseService purchaseService = new PurchaseService();
 
+  /**
+   * Add transaction.
+   *
+   * @param user User
+   * @param purchaseDetail Purchase detail
+   * @param count count
+   * @throws SQLException Exception
+   */
   public void updateTransaction(
       User user, PurchaseDetail purchaseDetail, int count) throws SQLException {
     TimeZone.setDefault(TimeZone.getTimeZone("Asia/Taipei"));

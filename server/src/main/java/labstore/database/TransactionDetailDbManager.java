@@ -170,6 +170,12 @@ public class TransactionDetailDbManager {
     return transactions;
   }
 
+  /**
+   * Delete transaction by specific id.
+   *
+   * @param id id
+   * @throws SQLException Exception
+   */
   public void deleteTransaction(int id) throws SQLException {
     String sql = "DELETE FROM LabStore.Transaction_Detail WHERE id = ?";
 
