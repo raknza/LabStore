@@ -65,9 +65,9 @@ export class LoginComponent implements OnInit {
         } else {
           this.jwtService.setToken(response.token);
           if (response.role === 'BOSS') {
-            this.router.navigate(['bossIndex']);
+            this.router.navigate(['boss']);
           } else if (response.role === 'CUSTOMER') {
-            this.router.navigate(['studashboard']);
+            this.router.navigate(['customer']);
           }
         }
       },
@@ -81,9 +81,9 @@ export class LoginComponent implements OnInit {
       const decodedToken = this.jwtService.getDecodedToken();
       if (!this.jwtService.isTokenExpired()) {
         if (decodedToken.sub === 'BOSS') {
-          this.router.navigate(['bossIndex']);
+          this.router.navigate(['boss']);
         } else {
-          this.router.navigate(['studashboard']);
+          this.router.navigate(['customer']);
         }
       } else {
         this.jwtService.removeToken();

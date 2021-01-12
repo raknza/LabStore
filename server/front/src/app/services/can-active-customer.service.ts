@@ -12,7 +12,7 @@ export class CanActiveCustomerService implements CanActivate {
   canActivate(): Promise<boolean> | boolean {
     return new Promise((resolve) => {
       this.loginAuth.isLoginByCustomer().subscribe((response) => {
-        if (response.isLogin && response.isTeacher) {
+        if (response.isLogin && response.isCustomer) {
           resolve(true);
         } else {
           this.jwtService.removeToken();

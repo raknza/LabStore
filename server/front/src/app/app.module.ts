@@ -50,6 +50,9 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { environment } from '../environments/environment';
 
 
+import { SharedModule } from './views/shared/shared.module';
+
+
 // Loading Component
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 
@@ -74,6 +77,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     ReactiveFormsModule,
     CollapseModule.forRoot(),
     CarouselModule.forRoot(),
+    SharedModule,
     PaginationModule.forRoot()
   ],
   declarations: [
@@ -81,7 +85,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
-    LoginComponent
+    LoginComponent,
   ],
   providers: [{
     provide: LocationStrategy,

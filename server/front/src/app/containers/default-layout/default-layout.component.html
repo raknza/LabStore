@@ -1,23 +1,31 @@
-<app-header [navbarBrandRouterLink]="[home]" [fixed]="true" 
+<app-header [navbarBrandRouterLink]="[home]" [fixed]="true"
   [navbarBrandFull]="{src: 'assets/img/logo1.png', width: '80%', alt: 'LabStore', style:'object-fit: scale-down'}"
   [navbarBrandMinimized]="{src: 'assets/img/logo2.png', width: 50, height: 30, alt: 'LabStore'}" [sidebarToggler]=false
   [asideMenuToggler]=false>
 
   <ul class="nav navbar-nav d-md-down-none">
     <div class="btn-group" dropdown [isOpen]="status.isOpen" (isOpenChange)="change($event)" placement="top">
+      <li class="nav-item px-3">
+        <a class="nav-link" href="javascript:void(0);" (click)='changeToDashboard()'>Product Detail</a>
+      </li>
       <li class="nav-item px-3" *ngIf="isBoss">
-        <a dropdownToggle class="nav-link dropdown-toggle" href="javascript:void(0);"> 進貨資訊</a>
+        <a dropdownToggle class="nav-link dropdown-toggle" href="javascript:void(0);"> Product Management</a>
         <ul *dropdownMenu class="dropdown-menu" role="menu">
-          <li role="menuitem"><a class="dropdown-item" href="#/dashboard/assignmentManagement">進貨管理
+          <li role="menuitem"><a class="dropdown-item" href="#/boss/category-dashboard">Category Dashboard
             </a>
           </li>
-          <li role="menuitem"><a class="dropdown-item" href="#/dashboard/studentManagement">設定商品售價
+          <li role="menuitem"><a class="dropdown-item" href="#/boss/product-management">Product Dashboard
+          </a>
+        </li>
+          <li role="menuitem"><a class="dropdown-item" href="#/boss/purchase-dashboard">Purchase Dashboard
+            </a> </li>
+          <li role="menuitem"><a class="dropdown-item" href="#/boss/transaction-dashboard">Transaction Dashboard
             </a> </li>
         </ul>
       </li>
     </div>
     <li class="nav-item px-3">
-      <a class="nav-link" href="javascript:void(0);" (click)='changeToDashboard()'>顧客趨勢圖表</a>
+      <a class="nav-link" href="javascript:void(0);" (click)='changeToDashboard()'>Wish</a>
     </li>
   </ul>
   <ul class="nav navbar-nav ml-auto">
@@ -46,11 +54,11 @@
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>-->
   <!-- Main content -->
-  <main class="main" >
+  <main class="main">
     <cui-breadcrumb>
       <!-- Breadcrumb Menu-->
     </cui-breadcrumb>
-    <div class="container-fluid" >
+    <div class="container-fluid">
       <router-outlet></router-outlet>
     </div> <!-- /.container-fluid -->
   </main>

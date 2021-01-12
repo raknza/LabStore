@@ -54,10 +54,10 @@ export class DefaultLayoutComponent implements OnDestroy, OnInit {
     // Add 'implements OnInit' to the class.
     this.user = new User(this.jwtService);
     if (this.user.isBoss) {
-      this.home = '/bossIndex';
+      this.home = '/boss';
       this.isBoss = true;
     } else if (this.user.isCustomer) {
-      this.home = '/studashboard';
+      this.home = '/customer';
       this.isCustomer = true;
     }
     /* Modify Secret Area*/

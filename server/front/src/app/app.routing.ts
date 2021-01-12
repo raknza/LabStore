@@ -47,12 +47,12 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'bossIndex',
+        path: 'boss',
         canActivate: [CanActiveBossService],
         loadChildren: () => import('./views/boss/boss.module').then(m => m.BossModule)
       },
       {
-        path: 'studashboard',
+        path: 'customer',
         canActivate: [CanActiveCustomerService],
         loadChildren: () => import('./views/customer/customer.module').then(m => m.CustomerModule)
       }
