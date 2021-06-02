@@ -90,7 +90,6 @@ public class PurchaseDetailDbManager {
           purchaseDetail.setUser(userDbManager.getUser(rs.getInt("uId")));
           purchaseDetail.setProduct(productDbManager.getProductById(rs.getInt("pId")));
           purchaseDetail.setCost(rs.getInt("cost"));
-          purchaseDetail.setPrice(rs.getInt("price"));
           purchaseDetail.setCount(rs.getInt("count"));
           purchaseDetail.setTime(rs.getTimestamp("time"));
         }
@@ -121,7 +120,6 @@ public class PurchaseDetailDbManager {
           purchaseDetail.setUser(user);
           purchaseDetail.setProduct(productDbManager.getProductById(rs.getInt("pId")));
           purchaseDetail.setCost(rs.getInt("cost"));
-          purchaseDetail.setPrice(rs.getInt("price"));
           purchaseDetail.setCount(rs.getInt("count"));
           purchaseDetail.setTime(rs.getTimestamp("time"));
           purchaseDetails.add(purchaseDetail);
@@ -151,7 +149,6 @@ public class PurchaseDetailDbManager {
           purchaseDetail.setUser(userDbManager.getUser(rs.getInt("uId")));
           purchaseDetail.setProduct(productDbManager.getProductById(rs.getInt("pId")));
           purchaseDetail.setCost(rs.getInt("cost"));
-          purchaseDetail.setPrice(rs.getInt("price"));
           purchaseDetail.setCount(rs.getInt("count"));
           purchaseDetail.setTime(rs.getTimestamp("time"));
           purchaseDetails.add(purchaseDetail);

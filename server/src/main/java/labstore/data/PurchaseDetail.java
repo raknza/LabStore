@@ -12,8 +12,6 @@ public class PurchaseDetail {
 
   private int cost;
 
-  private int price;
-
   private int count;
 
   private Date time;
@@ -48,14 +46,6 @@ public class PurchaseDetail {
 
   public void setCost(int cost) {
     this.cost = cost;
-  }
-
-  public int getPrice() {
-    return price;
-  }
-
-  public void setPrice(int price) {
-    this.price = price;
   }
 
   public int getCount() {
