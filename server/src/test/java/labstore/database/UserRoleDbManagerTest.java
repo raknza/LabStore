@@ -18,7 +18,7 @@ public class UserRoleDbManagerTest {
   UserRoleDbManager userRoleDbManager;
   User user;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserRoleDbManager.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserRoleDbManagerTest.class);
 
   @Before
   public void init() {
