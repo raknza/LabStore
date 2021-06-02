@@ -30,6 +30,36 @@ public class PurchaseController {
   private static final Logger LOGGER = LoggerFactory.getLogger(PurchaseController.class);
 
   /**
+   * Add new purchase by specific boss.
+   * @param username username
+   * @param productName product name
+   * @param cost cost
+   * @param count count
+   * @return
+   */
+  @POST
+  @Path("new")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response createPurchase(
+      @FormParam("username") String username,
+      @FormParam("productName") String productName,
+      @FormParam("cost") int cost,
+      @FormParam("count") int count
+  ) {
+    Response response;
+    try {
+      purchaseService.createPurchase(username, productName, cost, count);
+      response = Response.accepted().build();
+    } catch (Exception e) {
+      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
+      LOGGER.error(e.getMessage());
+      response = Response.serverError().entity(e.getMessage()).build();
+    }
+    return response;
+  }
+
+  /**
    * Get all purchase detail.
    *
    * @return Response

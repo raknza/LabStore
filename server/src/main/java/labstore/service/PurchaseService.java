@@ -2,17 +2,24 @@ package labstore.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
+import labstore.data.Product;
 import labstore.data.PurchaseDetail;
 import labstore.data.User;
+import labstore.database.ProductDbManager;
 import labstore.database.PurchaseDetailDbManager;
 
+import labstore.database.UserDbManager;
 import org.json.JSONObject;
 
 public class PurchaseService {
 
   private PurchaseDetailDbManager purchaseDetailDbManager = PurchaseDetailDbManager.getInstance();
+  private UserDbManager userDbManager = UserDbManager.getInstance();
+  private ProductDbManager productDbManager = ProductDbManager.getInstance();
 
   public PurchaseDetail getPurchase(int id) throws SQLException {
     return purchaseDetailDbManager.getPurchaseDetailById(id);
@@ -72,5 +79,22 @@ public class PurchaseService {
 
     jsonObject.put("Purchases", purchaseDetails);
     return jsonObject;
+  }
+
+  /**
+   * Add new Purchase by specific boss
+   * @param username username
+   * @param productName product name
+   * @param cost cost
+   * @param count count
+   * @throws SQLException Exception
+   */
+  public void createPurchase(String username, String productName, int cost, int count)
+      throws SQLException {
+    TimeZone.setDefault(TimeZone.getTimeZone("Asia/Taipei"));
+    Date time = new Date();
+    User user = userDbManager.getUser(username);
+    Product product = productDbManager.getProductByName(productName);
+    purchaseDetailDbManager.addPurchaseDetail(user, product, cost, count, time);
   }
 }

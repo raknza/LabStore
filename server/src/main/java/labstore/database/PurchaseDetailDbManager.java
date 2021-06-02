@@ -31,15 +31,14 @@ public class PurchaseDetailDbManager {
    * @param user User boss
    * @param product product
    * @param cost cost
-   * @param price price
    * @param count count
    * @param time time
    * @throws SQLException Exception
    */
   public void addPurchaseDetail(
-      User user, Product product, int cost, int price, int count, Date time) throws SQLException {
-    String sql = "INSERT INTO LabStore.Purchase_Detail(uId, pId, cost, price, count, time)"
-        + " VALUES(?, ?, ?, ?, ?, ?)";
+      User user, Product product, int cost, int count, Date time) throws SQLException {
+    String sql = "INSERT INTO LabStore.Purchase_Detail(uId, pId, cost, count, time)"
+        + " VALUES(?, ?, ?, ?, ?)";
     Timestamp timestamp = new Timestamp(time.getTime());
 
     try (Connection conn = database.getConnection();
@@ -47,9 +46,8 @@ public class PurchaseDetailDbManager {
       preStmt.setInt(1, user.getId());
       preStmt.setInt(2, product.getId());
       preStmt.setInt(3, cost);
-      preStmt.setInt(4, price);
-      preStmt.setInt(5, count);
-      preStmt.setTimestamp(6, timestamp);
+      preStmt.setInt(4, count);
+      preStmt.setTimestamp(5, timestamp);
       preStmt.executeUpdate();
     }
   }
