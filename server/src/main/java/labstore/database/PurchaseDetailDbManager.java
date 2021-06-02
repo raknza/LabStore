@@ -53,6 +53,24 @@ public class PurchaseDetailDbManager {
   }
 
   /**
+   * Update specific Purchase count when it is listed.
+   *
+   * @param id Purchase id
+   * @param count count
+   * @throws SQLException Exception
+   */
+  public void updatePurchaseDetailCountById(int id, int count) throws SQLException {
+    String sql = "UPDATE LabStore.Purchase_Detail SET count = ? WHERE (id = ?)";
+
+    try (Connection conn = database.getConnection();
+         PreparedStatement preStmt = conn.prepareStatement(sql)) {
+      preStmt.setInt(1, count);
+      preStmt.setInt(2, id);
+      preStmt.executeUpdate();
+    }
+  }
+
+  /**
    * Get Purchase detail by id.
    *
    * @param id id

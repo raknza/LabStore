@@ -82,7 +82,8 @@ public class PurchaseService {
   }
 
   /**
-   * Add new Purchase by specific boss
+   * Add new Purchase by specific boss.
+   *
    * @param username username
    * @param productName product name
    * @param cost cost
@@ -96,5 +97,16 @@ public class PurchaseService {
     User user = userDbManager.getUser(username);
     Product product = productDbManager.getProductByName(productName);
     purchaseDetailDbManager.addPurchaseDetail(user, product, cost, count, time);
+  }
+
+  /**
+   * Update specific Purchase count when it is listed.
+   *
+   * @param id Purchase id
+   * @param count count
+   * @throws SQLException Exception
+   */
+  public void updatePurchase(int id, int count) throws  SQLException {
+    purchaseDetailDbManager.updatePurchaseDetailCountById(id, count);
   }
 }
