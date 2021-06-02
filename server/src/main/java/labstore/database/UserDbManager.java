@@ -31,7 +31,6 @@ public class UserDbManager {
   private static final String USERNAME = "username";
   private static final String NAME = "name";
   private static final String PASSWORD = "password";
-  private static final String ROLE = "role";
 
   private UserDbManager() {
 
@@ -197,7 +196,6 @@ public class UserDbManager {
     }
     return user;
   }
-
 
   /**
    * List all the database user
