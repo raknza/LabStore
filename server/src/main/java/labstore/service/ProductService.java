@@ -88,7 +88,7 @@ public class ProductService {
     JSONObject jsonObject = new JSONObject();
 
     for (Product product : allProducts) {
-      if (product.getCategory().equals(category)) {
+      if (product.getCategory().getId() == category.getId()) {
         products.add(product);
       }
     }
