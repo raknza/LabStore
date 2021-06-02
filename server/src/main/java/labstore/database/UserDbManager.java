@@ -25,6 +25,9 @@ public class UserDbManager {
 
   private IDatabase database = new MySqlDatabase();
 
+  private UserRoleDbManager userRoleDbManager = UserRoleDbManager.getInstance();
+  private RoleDbManager roleDbManager = RoleDbManager.getInstance();
+
   private static final String USERNAME = "username";
   private static final String NAME = "name";
   private static final String PASSWORD = "password";
@@ -184,10 +187,12 @@ public class UserDbManager {
           String username = rs.getString("username");
           String name = rs.getString(NAME);
           String password = rs.getString(PASSWORD);
+          RoleEnum roleEnum = roleDbManager.getRoleNameById(userRoleDbManager.getTopRid(id));
           user.setId(id);
           user.setUsername(username);
           user.setName(name);
           user.setPassword(password);
+          user.setRole(roleEnum);
         }
       }
     }
@@ -211,14 +216,14 @@ public class UserDbManager {
           String username = rs.getString(USERNAME);
           String name = rs.getString(NAME);
           String password = rs.getString(PASSWORD);
-          String role = rs.getString(ROLE);
+          RoleEnum roleEnum = roleDbManager.getRoleNameById(userRoleDbManager.getTopRid(id));
 
           User user = new User();
           user.setId(id);
           user.setUsername(username);
           user.setName(name);
           user.setPassword(password);
-          user.setRole(RoleEnum.BOSS);
+          user.setRole(roleEnum);
           users.add(user);
         }
       }
