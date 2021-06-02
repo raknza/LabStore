@@ -20,20 +20,7 @@ public class UserRoleDbManager {
 
   private IDatabase database = new MySqlDatabase();
 
-  public static RoleDbManager rdb = RoleDbManager.getInstance();
-  public static UserDbManager udb = UserDbManager.getInstance();
-
-  /**
-   * Add RoleUser to database by User
-   * 
-   * @param user User
-   */
-  public void addRoleUser(User user) throws SQLException {
-    String username = user.getUsername();
-    int uid = udb.getUserIdByUsername(username);
-    int rid = rdb.getRoleIdByName(user.getRole().getTypeName());
-    addRoleUser(rid, uid);
-  }
+  private RoleDbManager roleDbManager = RoleDbManager.getInstance();
 
   /**
    * Add RoleUser to database by rid and uid
@@ -112,7 +99,7 @@ public class UserRoleDbManager {
       try (ResultSet rs = preStmt.executeQuery()) {
         while (rs.next()) {
           int rid = rs.getInt("rId");
-          RoleEnum role = rdb.getRoleNameById(rid);
+          RoleEnum role = roleDbManager.getRoleNameById(rid);
           lsRole.add(role);
         }
       }

@@ -2,7 +2,9 @@ package labstore.service;
 
 import labstore.data.RoleEnum;
 import labstore.data.User;
+import labstore.database.RoleDbManager;
 import labstore.database.UserDbManager;
+import labstore.database.UserRoleDbManager;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
@@ -12,6 +14,8 @@ import java.util.List;
 public class UserService {
 
   private UserDbManager userDbManager = UserDbManager.getInstance();
+  private RoleDbManager roleDbManager = RoleDbManager.getInstance();
+  private UserRoleDbManager userRoleDbManager = UserRoleDbManager.getInstance();
 
   /**
    * Get user id by username.
@@ -83,6 +87,7 @@ public class UserService {
     String errorMessage = getErrorMessage(user);
     if (errorMessage.isEmpty()) {
       userDbManager.addUser(user);
+      addRoleUser(user);
     } else {
       throw new Exception(errorMessage);
     }
@@ -138,6 +143,18 @@ public class UserService {
 
     jsonObject.put("Customers", customerUsers);
     return jsonObject;
+  }
+
+  /**
+   * Add RoleUser to database by User
+   *
+   * @param user User
+   */
+  public void addRoleUser(User user) throws SQLException {
+    String username = user.getUsername();
+    int uid = userDbManager.getUserIdByUsername(username);
+    int rid = roleDbManager.getRoleIdByName(user.getRole().getTypeName());
+    userRoleDbManager.addRoleUser(rid, uid);
   }
 
   /**

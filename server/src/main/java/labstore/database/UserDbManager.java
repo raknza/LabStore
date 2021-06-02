@@ -44,14 +44,13 @@ public class UserDbManager {
    */
   public void addUser(User user) throws NoSuchAlgorithmException, SQLException {
     String sql = "INSERT INTO " + "User" + "(" + USERNAME + "," + PASSWORD + ","
-        + NAME + "," + ROLE + ")" + "VALUES(?, ?, ?, ?)" ;
+        + NAME + ")" + "VALUES(?, ?, ?)" ;
 
     try (Connection conn = database.getConnection();
         PreparedStatement preStmt = conn.prepareStatement(sql)) {
       preStmt.setString(1, user.getUsername());
       preStmt.setString(2, passwordMD5(user.getPassword()));
       preStmt.setString(3, user.getName());
-      preStmt.setString(4, user.getRole().name());
       preStmt.executeUpdate();
     }
   }
