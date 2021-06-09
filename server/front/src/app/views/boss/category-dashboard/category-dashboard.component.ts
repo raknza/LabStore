@@ -11,6 +11,12 @@ export class CategoryDashboardComponent implements OnInit {
 
   @ViewChild('categoryAddModal', {static: true}) public categoryAddModal: ModalDirective;
 
+  selectedCategory: any;
+  assessments: any;
+  categories: any;
+  metricsCategoryEditModal: any;
+  metricsCategoryDeleteModal: any;
+
   constructor() { }
 
   ngOnInit() {

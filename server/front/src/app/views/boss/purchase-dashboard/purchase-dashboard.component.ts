@@ -8,6 +8,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class PurchaseDashboardComponent implements OnInit {
 
+  buyProductModal: any;
+  
+
   constructor() { }
 
   ngOnInit() {

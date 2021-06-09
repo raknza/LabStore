@@ -16,7 +16,7 @@ const options = ({
 export class LoginAuthService {
 
   LOGIN_URL: string = environment.SERVER_URL + '/LoginAuth';
-  AUTH_URL: string = environment.SERVER_URL + '/webapi/auth/checkLogin';
+  AUTH_URL: string = environment.SERVER_URL + '/webapi/auth/login';
   constructor(private http: HttpClient, private jwtService: JwtService) { }
 
   public Login(username, password): Observable<any> {
