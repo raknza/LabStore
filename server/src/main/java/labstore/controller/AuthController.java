@@ -23,7 +23,7 @@ public class AuthController {
    * @return Response
    */
   @POST
-  @Path("checkLogin")
+  @Path("login")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public Response checkLogin(@FormParam("token") String token) {
     Response response = null;
