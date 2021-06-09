@@ -2,11 +2,11 @@ package labstore.data;
 
 import java.util.Date;
 
-public class ShelfProducts {
+public class ShelfProduct {
 
   private int id;
 
-  private Product product;
+  private PurchaseDetail purchaseDetail;
 
   private int price;
 
@@ -24,12 +24,12 @@ public class ShelfProducts {
     this.id = id;
   }
 
-  public Product getProduct(){
-    return product;
+  public PurchaseDetail getPurchaseDetail(){
+    return purchaseDetail;
   }
 
-  public void setProduct(Product product){
-    this.product = product;
+  public void setPurchaseDetail(PurchaseDetail purchaseDetail){
+    this.purchaseDetail = purchaseDetail;
   }
 
   public int getPrice(){

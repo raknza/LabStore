@@ -1,8 +1,10 @@
 package labstore.controller;
 
+import labstore.data.PurchaseDetail;
 import labstore.service.PurchaseService;
 import labstore.service.ShelfProductService;
 
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -25,8 +27,62 @@ public class ShelfProductController {
   private ShelfProductService shelfProductService = new ShelfProductService();
   private PurchaseService purchaseService = new PurchaseService();
 
+
   private static final Logger LOGGER = LoggerFactory.getLogger(ShelfProductController.class);
 
+  /**
+   * Get all shelf product.
+   *
+   * @return Response
+   */
+  @GET
+  @Path("all")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getAllShelfProduct(){
+    Response response;
+    try{
+      JSONObject jsonObject = shelfProductService.getAllShelfProducts();
+      response = Response.ok().entity(jsonObject.toString()).build();
+    }catch (Exception e){
+      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
+      LOGGER.error(e.getMessage());
+      response = Response.serverError().entity(e.getMessage()).build();
+    }
+    return response;
+  }
+
+  /**
+   * Get all shelf product by purchase detail.
+   *
+   * @param pdId purchase detail id
+   * @return Response
+   */
+  @GET
+  @Path("all/productDetail")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getAllShelfProduct(@QueryParam("productdetail") int pdId){
+    Response response;
+    try{
+      PurchaseDetail purchaseDetail = purchaseService.getPurchase(pdId);
+      JSONObject jsonObject = shelfProductService.getAllShelfProducts(purchaseDetail);
+      response = Response.ok().entity(jsonObject.toString()).build();
+    }catch (Exception e){
+      LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
+      LOGGER.error(e.getMessage());
+      response = Response.serverError().entity(e.getMessage()).build();
+    }
+    return response;
+  }
+
+  /**
+   * Create shelf product.
+   *
+   * @param pdId pdId
+   * @param price price
+   * @param count count
+   * @return Response
+   */
   @POST
   @Path("new")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -38,7 +94,7 @@ public class ShelfProductController {
   ) {
     Response response;
     try {
-
+      shelfProductService.addShelfProduct(pdId, price, count);
       response = Response.accepted().build();
     } catch (Exception e) {
       LOGGER.debug(ExceptionUtil.getErrorInfoFromException(e));
