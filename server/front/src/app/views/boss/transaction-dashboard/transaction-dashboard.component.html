@@ -12,33 +12,37 @@
       <table class='table table-striped' style="text-align:center;">
         <thead>
           <tr>
-            <th width="20%" class='text-left'>Product name</th>
-            <th width="15%" class='text-left'>Buyer</th>
-            <th width="15%" class='text-left'>Price</th>
-            <th width="15%" class='text-left'>Count</th>
-            <th width="15%" class='text-left'>Profit</th>
+            <th width="13%" class='text-left'>Product name</th>
+            <th width="13%" class='text-left'>Buyer</th>
+            <th width="12%" class='text-left'>Price</th>
+            <th width="12%" class='text-left'>Cost</th>
+            <th width="12%" class='text-left'>Count</th>
+            <th width="12%" class='text-left'>Profit</th>
             <th width="20%" class='text-left'>Time</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngFor="let transaction of allTransaction">
           <tr >
+            <th class='text-left' width="13%">
+              {{transaction.shelfProduct.purchaseDetail.product.name}}
+            </th>
+            <th class='text-left' width="13%">
+              {{transaction.user.name}}
+            </th>
+            <th class='text-left' width="12%">
+              {{transaction.shelfProduct.price}}$
+            </th>
+            <th class='text-left' width="12%">
+              {{transaction.shelfProduct.purchaseDetail.cost}}$
+            </th>
+            <th class='text-left' width="12%">
+              {{transaction.count}}
+            </th>
+            <th class='text-left' width="12%">
+              {{ (transaction.shelfProduct.price - transaction.shelfProduct.purchaseDetail.cost) * transaction.count }}$
+            </th>
             <th class='text-left' width="20%">
-              樂事洋芋片
-            </th>
-            <th class='text-left' width="15%">
-              Andy
-            </th>
-            <th class='text-left' width="15%">
-              30$
-            </th>
-            <th class='text-left' width="15%">
-              5
-            </th>
-            <th class='text-left' width="15%">
-              5$
-            </th>
-            <th class='text-left' width="20%">
-              2021/01/07
+              {{transaction.time}}
             </th>
           </tr>
         </tbody>

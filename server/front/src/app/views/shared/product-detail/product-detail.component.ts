@@ -12,19 +12,30 @@ export class ProductDetailComponent implements OnInit {
 
   allPurchases: any;
   onSelectedPurchase: any;
+  buyCount: number = 1;
 
   constructor(private productDetailService: ProductDetailService) { }
 
   ngOnInit() {
     this.productDetailService.getAllPurchase().subscribe(
       response => {
-        this.allPurchases = response['Purchases'];
+        this.allPurchases = response['Shelf_Products'];
       }
     );
   }
   selectProduct(product: any) {
     console.log(product);
     this.onSelectedPurchase = product;
+  }
+  onChangeBuyCount(count: any){
+    this.buyCount = count.target.value;
+  }
+  buyProduct(){
+    this.productDetailService.buyProduct(this.onSelectedPurchase.id, this.buyCount).subscribe(
+      response => {
+        window.location.reload();
+      }
+    );
   }
 
 }

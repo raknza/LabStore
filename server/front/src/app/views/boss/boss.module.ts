@@ -1,3 +1,4 @@
+import { ShelfProductManagementComponent } from './shelf-product-management/shelf-product-management.component';
 import { ProductManagementComponent } from './product-management/product-management.component';
 import { PurchaseDashboardComponent } from './purchase-dashboard/purchase-dashboard.component';
 import { TransactionDashboardComponent } from './transaction-dashboard/transaction-dashboard.component';
@@ -33,7 +34,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ModalModule.forRoot(),
   ],
   declarations: [
-    TransactionDashboardComponent, PurchaseDashboardComponent, CategoryDashboardComponent , ProductManagementComponent
+    TransactionDashboardComponent, PurchaseDashboardComponent, CategoryDashboardComponent , ProductManagementComponent,
+    ShelfProductManagementComponent
   ]
 })
 export class BossModule { }

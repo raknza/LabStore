@@ -20,23 +20,11 @@
                 <th>Name</th>
               </tr>
             </thead>
-            <tbody >
-              <tr class="category" >
-                <td width="15%">1</td>
-                <td>餅乾</td>
-              </tr>
-            </tbody>
-            <tbody >
-              <tr class="category" >
-                <td width="15%">2</td>
-                <td>飲料</td>
-              </tr>
-            </tbody>
-            <tbody *ngFor="let category of categories">
+            <tbody *ngFor="let category of allCategory">
               <tr class="category" [class.selected]="category === selectedCategory"
                 (click)="onSelectCategory(category)">
-                <td width="15%">{{category.name}}</td>
-                <td>{{category.metrics}}</td>
+                <td width="15%">{{category.id}}</td>
+                <td width="85%">{{category.name}}</td>
               </tr>
             </tbody>
           </table>
@@ -62,14 +50,14 @@
           <div class="form-group row">
             <label class="col-md-3 col-form-label" for="count">Name</label>
             <div class="col-md-9">
-              <input class="form-control is-valid" id="count" name="count" value=5
-                >
+              <input class="form-control is-valid" id="count" name="count"
+              [value]  (change)="onChange($event)" >
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="categoryAddModal.hide()">Close</button>
-          <button type="submit" class="btn btn-primary" >Add</button>
+          <button type="submit" class="btn btn-primary" (click)="addCategory();categoryAddModal.hide()">Add</button>
         </div>
 
     </div><!-- /.modal-content -->

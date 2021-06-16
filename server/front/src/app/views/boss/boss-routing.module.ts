@@ -6,6 +6,7 @@ import { ProductDetailComponent } from './../shared/product-detail/product-detai
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
+import { ShelfProductManagementComponent } from './shelf-product-management/shelf-product-management.component';
 
 
 const routes: Routes = [
@@ -42,6 +43,13 @@ const routes: Routes = [
     component: ProductManagementComponent,
     data: {
       title: 'Product Management'
+    }
+  },
+  {
+    path: 'shelf-product-management',
+    component: ShelfProductManagementComponent,
+    data: {
+      title: 'Shelf Product Management'
     }
   },
 ];

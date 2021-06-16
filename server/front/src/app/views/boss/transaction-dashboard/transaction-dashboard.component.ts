@@ -1,3 +1,4 @@
+import { TransactionDashboardService } from './transaction-dashboard.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
@@ -8,9 +9,17 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class TransactionDashboardComponent implements OnInit {
 
-  constructor() { }
+  allTransaction: any;
+
+  constructor(private transactionDashboardService: TransactionDashboardService) { }
 
   ngOnInit() {
+
+    this.transactionDashboardService.getAllTransaction().subscribe(
+      response => {
+        this.allTransaction = response['Transactions'];
+      }
+    );
   }
 
 }

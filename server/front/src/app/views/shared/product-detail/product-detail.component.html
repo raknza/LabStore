@@ -22,16 +22,16 @@
         <tbody *ngFor="let purchase of allPurchases">
           <tr >
             <th class='text-left' width="20%">
-              {{purchase.product.name}}
+              {{purchase.purchaseDetail.product.name}}
             </th>
             <th class='text-left' width="20%">
               {{purchase.price}}$
             </th>
             <th class='text-left' width="20%">
-              {{purchase.count}}包
+              {{purchase.count}}份
             </th>
             <th class='text-left' width="20%">
-              {{purchase.user.name}}
+              {{purchase.purchaseDetail.user.name}}
             </th>
             <th class='text-left' width="40%">
               <button class="btn btn-primary" type="button" (click)="selectProduct(purchase);buyProductModal.show();">Buy the product</button>
@@ -51,7 +51,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Buy Product  "{{onSelectedPurchase}}"</h4>
+        <h4 class="modal-title">Buy Product  "{{onSelectedPurchase.purchaseDetail.product.name}}"</h4>
         <button type="button" class="close" (click)="buyProductModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -61,8 +61,8 @@
           <div class="form-group row">
             <label class="col-md-3 col-form-label" for="count">Count</label>
             <div class="col-md-9">
-              <input class="form-control is-valid" id="count" name="count" value=5
-                >
+              <input class="form-control is-valid" id="count" name="count"
+              [value]=1 (change)="onChangeBuyCount($event)">
             </div>
           </div>
           <div class="form-group row">
@@ -74,14 +74,14 @@
           <div class="form-group row">
             <label class="col-md-3 col-form-label" for="count">Total Cost</label>
             <div class="col-md-9">
-              {{onSelectedPurchase.price}}
+              {{onSelectedPurchase.price * buyCount }}
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="buyProductModal.hide()">Close</button>
-          <button type="submit" class="btn btn-primary" >Buy</button>
+          <button type="submit" class="btn btn-primary" (click)="buyProduct();buyProductModal.hide()">Buy</button>
         </div>
 
     </div><!-- /.modal-content -->
